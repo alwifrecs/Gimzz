@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PAYMENT ALXARUI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background-image: linear-gradient(-45deg, #000, #111, #000, #111);
+      background-size: 400% 400%;
+      animation: wavebg 12s ease infinite;
+    }
+    @keyframes wavebg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .loading-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .spinner {
+      border: 6px solid #333;
+      border-top: 6px solid cyan;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .btn-start {
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: cyan;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #000;
+      margin-top: 20px;
+    }
+    .page {
+      display: none;
+      padding: 30px 20px;
+      text-align: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid cyan;
+      box-shadow: 0 0 25px cyan;
+      margin: 0 auto 15px;
+      display: block;
+    }
+    h2 {
+      color: cyan;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px cyan;
+    }
+    .pay-btn {
+      display: block;
+      width: 80%;
+      margin: 10px auto;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background-color: #111;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 0 12px cyan;
+      cursor: pointer;
+      transition: 0.3s ease;
+      animation: pulseGlow 2s infinite;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 12px cyan; }
+      50% { box-shadow: 0 0 25px cyan; }
+      100% { box-shadow: 0 0 12px cyan; }
+    }
+    .pay-btn:hover {
+      background-color: cyan;
+      color: #000;
+      box-shadow: 0 0 20px cyan;
+    }
+    .wa-btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: #25D366;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #25D366;
+      transition: 0.3s ease;
+    }
+    .wa-btn:hover {
+      background-color: #1ebe5d;
+      box-shadow: 0 0 20px #25D366;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #888;
+    }
+    .qris-img {
+      width: 240px;
+      max-width: 80%;
+      border-radius: 12px;
+      margin: 20px auto;
+      display: block;
+      box-shadow: 0 0 15px cyan;
+      border: 2px solid cyan;
+    }
+  </style>
+</head>
+<body>
+
+<audio id="bgm" src="https://files.catbox.moe/tg5065.mp3"></audio>
+
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <h2>Loading to Payment...</h2>
+  <button class="btn-start" onclick="goToPayment()">Go to Payment</button>
+</div>
+
+<!-- Payment Page -->
+<div class="page" id="paymentPage">
+  <img src="https://files.catbox.moe/4ldwe3.jpg" alt="Profile" class="profile-img">
+  <h2>Payment ALXARUI</h2>
+
+  <button class="pay-btn" onclick="copyToClipboard('087763044658')">DANA</button>
+  <button class="pay-btn" onclick="copyToClipboard('087763044658')">GOPAY</button>
+
+  <img src="https://files.catbox.moe/w9umn0.jpg" alt="QRIS" class="qris-img">
+
+  <a href="https://wa.me/62882022979241" target="_blank" class="wa-btn">Hubungi Admin via WhatsApp</a>
+
+  <div class="footer">© Powered by ALXARUI || Official</div>
+</div>
+
+<script>
+  function goToPayment() {
+    document.getElementById('bgm').play();
+    document.getElementById('loadingScreen').style.display = 'none';
+    document.getElementById('paymentPage').style.display = 'block';
+  }
+
+  function copyToClipboard(nomor) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(nomor)
+        .then(() => alert("✅ Nomor berhasil disalin:\n" + nomor))
+        .catch(() => fallbackCopy());
+    } else {
+      fallbackCopy();
+    }
+
+    function fallbackCopy() {
+      const temp = document.createElement("textarea");
+      temp.value = nomor;
+      document.body.appendChild(temp);
+      temp.select();
+      try {
+        document.execCommand("copy");
+        alert("Kirim bukti transfer ke admin:\n" + nomor);
+      } catch {
+        alert("❌ Gagal menyalin nomor.");
+      }
+      document.body.removeChild(temp);
+    }
+  }
+</script>
+</body>
+</html>
